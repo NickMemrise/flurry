@@ -57,6 +57,10 @@ void s3eFlurryLogEvent_platform(const char* eventName, const s3eBool timed)
     }
 }
 
+void s3eFlurryLogEventWithParameters_platform(const char* eventName, const char** eventParams, const uint32 numParams, const s3eBool timed)
+{
+}
+
 void s3eFlurryEndTimedEvent_platform(const char* eventName)
 {
     NSString* name = [NSString stringWithUTF8String: eventName];

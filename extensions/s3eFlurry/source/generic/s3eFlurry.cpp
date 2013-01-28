@@ -33,6 +33,11 @@ void s3eFlurryLogEvent(const char* eventName, const s3eBool timed)
 	s3eFlurryLogEvent_platform(eventName, timed);
 }
 
+void s3eFlurryLogEventWithParameters(const char* eventName, const char** eventParams, const uint32 numParams, const s3eBool timed)
+{
+	s3eFlurryLogEventWithParameters_platform(eventName, eventParams, numParams, timed);
+}
+
 void s3eFlurryEndTimedEvent(const char* eventName)
 {
 	s3eFlurryEndTimedEvent_platform(eventName);
