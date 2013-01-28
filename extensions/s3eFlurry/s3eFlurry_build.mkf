@@ -19,8 +19,8 @@ defines
 #the mkb is run
 extension
 {
-    ("$MARMALADE_ROOT/extensions/builder")
-    "make_extension s3eFlurry.s4e"
+    ("$MARMALADE_ROOT/s3e/edk/builder")
+    "edk_build s3eFlurry.s4e"
 }
 
 #include the extension builder subproject

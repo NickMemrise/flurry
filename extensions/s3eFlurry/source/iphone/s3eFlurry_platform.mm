@@ -59,6 +59,28 @@ void s3eFlurryLogEvent_platform(const char* eventName, const s3eBool timed)
 
 void s3eFlurryLogEventWithParameters_platform(const char* eventName, const char** eventParams, const uint32 numParams, const s3eBool timed)
 {
+    NSString* name = [NSString stringWithUTF8String: eventName];
+    NSMutableDictionary* params = [[NSMutableDictionary alloc] init];
+
+    for(uint32 i=0; i<numParams; i++)
+    {
+        uint32 index = i * 2;
+        NSString* key = [NSString stringWithUTF8String: eventParams[(index)]];
+        NSString* val = [NSString stringWithUTF8String: eventParams[(index+1)]];
+        
+        [params setObject:val forKey:key];
+    }
+
+    if(!timed)
+    {
+        [FlurryAnalytics logEvent:name withParameters:params];
+        IwTrace(FLURRY,("Event Logged: \"%s\"", eventName));
+    }
+    else
+    {
+        [FlurryAnalytics logEvent:name withParameters:params timed:timed];
+        IwTrace(FLURRY,("Timed Event Logged: \"%s\"", eventName));
+    }
 }
 
 void s3eFlurryEndTimedEvent_platform(const char* eventName)
