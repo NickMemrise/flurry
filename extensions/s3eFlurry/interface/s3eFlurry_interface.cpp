@@ -5,6 +5,8 @@
 
 #include "s3eExt.h"
 #include "IwDebug.h"
+#include "s3eDevice.h"
+
 
 #include "s3eFlurry.h"
 
@@ -13,6 +15,7 @@
  */
 typedef       void(*s3eFlurryStart_t)(const char* ID);
 typedef       void(*s3eFlurryLogEvent_t)(const char* eventName, const s3eBool timed);
+typedef       void(*s3eFlurryLogEventWithParameters_t)(const char* eventName, const char** eventParams, const uint32 numParams, const s3eBool timed);
 typedef       void(*s3eFlurryEndTimedEvent_t)(const char* eventName);
 typedef       void(*s3eFlurryLogError_t)(const char* errorName, const char* errorMessage);
 typedef       void(*s3eFlurrySetUserID_t)(const char* userID);
@@ -33,6 +36,7 @@ typedef struct s3eFlurryFuncs
 {
     s3eFlurryStart_t m_s3eFlurryStart;
     s3eFlurryLogEvent_t m_s3eFlurryLogEvent;
+    s3eFlurryLogEventWithParameters_t m_s3eFlurryLogEventWithParameters;
     s3eFlurryEndTimedEvent_t m_s3eFlurryEndTimedEvent;
     s3eFlurryLogError_t m_s3eFlurryLogError;
     s3eFlurrySetUserID_t m_s3eFlurrySetUserID;
@@ -60,7 +64,8 @@ static bool _extLoad()
         if (res == S3E_RESULT_SUCCESS)
             g_GotExt = true;
         else
-            s3eDebugAssertShow(S3E_MESSAGE_CONTINUE_STOP_IGNORE, "error loading extension: s3eFlurry");
+            s3eDebugAssertShow(S3E_MESSAGE_CONTINUE_STOP_IGNORE,                 "error loading extension: s3eFlurry");
+            
         g_TriedExt = true;
         g_TriedNoMsgExt = true;
     }
@@ -96,7 +101,19 @@ void s3eFlurryStart(const char* ID)
     if (!_extLoad())
         return;
 
+#ifdef __mips
+    // For MIPs platform we do not have asm code for stack switching 
+    // implemented. So we make LoaderCallStart call manually to set GlobalLock
+    s3eDeviceLoaderCallStart(S3E_TRUE, NULL);
+#endif
+
     g_Ext.m_s3eFlurryStart(ID);
+
+#ifdef __mips
+    s3eDeviceLoaderCallDone(S3E_TRUE, NULL);
+#endif
+
+    return;
 }
 
 void s3eFlurryLogEvent(const char* eventName, const s3eBool timed)
@@ -106,125 +123,303 @@ void s3eFlurryLogEvent(const char* eventName, const s3eBool timed)
     if (!_extLoad())
         return;
 
+#ifdef __mips
+    // For MIPs platform we do not have asm code for stack switching 
+    // implemented. So we make LoaderCallStart call manually to set GlobalLock
+    s3eDeviceLoaderCallStart(S3E_TRUE, NULL);
+#endif
+
     g_Ext.m_s3eFlurryLogEvent(eventName, timed);
+
+#ifdef __mips
+    s3eDeviceLoaderCallDone(S3E_TRUE, NULL);
+#endif
+
+    return;
+}
+
+void s3eFlurryLogEventWithParameters(const char* eventName, const char** eventParams, const uint32 numParams, const s3eBool timed)
+{
+    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[2] func: s3eFlurryLogEventWithParameters"));
+
+    if (!_extLoad())
+        return;
+
+#ifdef __mips
+    // For MIPs platform we do not have asm code for stack switching 
+    // implemented. So we make LoaderCallStart call manually to set GlobalLock
+    s3eDeviceLoaderCallStart(S3E_TRUE, NULL);
+#endif
+
+    g_Ext.m_s3eFlurryLogEventWithParameters(eventName, eventParams, numParams, timed);
+
+#ifdef __mips
+    s3eDeviceLoaderCallDone(S3E_TRUE, NULL);
+#endif
+
+    return;
 }
 
 void s3eFlurryEndTimedEvent(const char* eventName)
 {
-    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[2] func: s3eFlurryEndTimedEvent"));
+    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[3] func: s3eFlurryEndTimedEvent"));
 
     if (!_extLoad())
         return;
 
+#ifdef __mips
+    // For MIPs platform we do not have asm code for stack switching 
+    // implemented. So we make LoaderCallStart call manually to set GlobalLock
+    s3eDeviceLoaderCallStart(S3E_TRUE, NULL);
+#endif
+
     g_Ext.m_s3eFlurryEndTimedEvent(eventName);
+
+#ifdef __mips
+    s3eDeviceLoaderCallDone(S3E_TRUE, NULL);
+#endif
+
+    return;
 }
 
 void s3eFlurryLogError(const char* errorName, const char* errorMessage)
 {
-    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[3] func: s3eFlurryLogError"));
+    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[4] func: s3eFlurryLogError"));
 
     if (!_extLoad())
         return;
 
+#ifdef __mips
+    // For MIPs platform we do not have asm code for stack switching 
+    // implemented. So we make LoaderCallStart call manually to set GlobalLock
+    s3eDeviceLoaderCallStart(S3E_TRUE, NULL);
+#endif
+
     g_Ext.m_s3eFlurryLogError(errorName, errorMessage);
+
+#ifdef __mips
+    s3eDeviceLoaderCallDone(S3E_TRUE, NULL);
+#endif
+
+    return;
 }
 
 void s3eFlurrySetUserID(const char* userID)
 {
-    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[4] func: s3eFlurrySetUserID"));
+    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[5] func: s3eFlurrySetUserID"));
 
     if (!_extLoad())
         return;
 
+#ifdef __mips
+    // For MIPs platform we do not have asm code for stack switching 
+    // implemented. So we make LoaderCallStart call manually to set GlobalLock
+    s3eDeviceLoaderCallStart(S3E_TRUE, NULL);
+#endif
+
     g_Ext.m_s3eFlurrySetUserID(userID);
+
+#ifdef __mips
+    s3eDeviceLoaderCallDone(S3E_TRUE, NULL);
+#endif
+
+    return;
 }
 
 void s3eFlurrySetUserAge(const uint8 age)
 {
-    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[5] func: s3eFlurrySetUserAge"));
+    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[6] func: s3eFlurrySetUserAge"));
 
     if (!_extLoad())
         return;
 
+#ifdef __mips
+    // For MIPs platform we do not have asm code for stack switching 
+    // implemented. So we make LoaderCallStart call manually to set GlobalLock
+    s3eDeviceLoaderCallStart(S3E_TRUE, NULL);
+#endif
+
     g_Ext.m_s3eFlurrySetUserAge(age);
+
+#ifdef __mips
+    s3eDeviceLoaderCallDone(S3E_TRUE, NULL);
+#endif
+
+    return;
 }
 
 void s3eFlurrySetUserGender(const s3eFlurryUserGender gender)
 {
-    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[6] func: s3eFlurrySetUserGender"));
+    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[7] func: s3eFlurrySetUserGender"));
 
     if (!_extLoad())
         return;
 
+#ifdef __mips
+    // For MIPs platform we do not have asm code for stack switching 
+    // implemented. So we make LoaderCallStart call manually to set GlobalLock
+    s3eDeviceLoaderCallStart(S3E_TRUE, NULL);
+#endif
+
     g_Ext.m_s3eFlurrySetUserGender(gender);
+
+#ifdef __mips
+    s3eDeviceLoaderCallDone(S3E_TRUE, NULL);
+#endif
+
+    return;
 }
 
 void s3eFlurrySetLocation(s3eLocation* location)
 {
-    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[7] func: s3eFlurrySetLocation"));
+    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[8] func: s3eFlurrySetLocation"));
 
     if (!_extLoad())
         return;
 
+#ifdef __mips
+    // For MIPs platform we do not have asm code for stack switching 
+    // implemented. So we make LoaderCallStart call manually to set GlobalLock
+    s3eDeviceLoaderCallStart(S3E_TRUE, NULL);
+#endif
+
     g_Ext.m_s3eFlurrySetLocation(location);
+
+#ifdef __mips
+    s3eDeviceLoaderCallDone(S3E_TRUE, NULL);
+#endif
+
+    return;
 }
 
 void s3eFlurrySetSessionReportOnClose(const s3eBool sendReportOnClose)
 {
-    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[8] func: s3eFlurrySetSessionReportOnClose"));
+    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[9] func: s3eFlurrySetSessionReportOnClose"));
 
     if (!_extLoad())
         return;
 
+#ifdef __mips
+    // For MIPs platform we do not have asm code for stack switching 
+    // implemented. So we make LoaderCallStart call manually to set GlobalLock
+    s3eDeviceLoaderCallStart(S3E_TRUE, NULL);
+#endif
+
     g_Ext.m_s3eFlurrySetSessionReportOnClose(sendReportOnClose);
+
+#ifdef __mips
+    s3eDeviceLoaderCallDone(S3E_TRUE, NULL);
+#endif
+
+    return;
 }
 
 void s3eFlurrySetSessionReportOnPause(const s3eBool sendReportOnPause)
 {
-    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[9] func: s3eFlurrySetSessionReportOnPause"));
+    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[10] func: s3eFlurrySetSessionReportOnPause"));
 
     if (!_extLoad())
         return;
 
+#ifdef __mips
+    // For MIPs platform we do not have asm code for stack switching 
+    // implemented. So we make LoaderCallStart call manually to set GlobalLock
+    s3eDeviceLoaderCallStart(S3E_TRUE, NULL);
+#endif
+
     g_Ext.m_s3eFlurrySetSessionReportOnPause(sendReportOnPause);
+
+#ifdef __mips
+    s3eDeviceLoaderCallDone(S3E_TRUE, NULL);
+#endif
+
+    return;
 }
 
 void s3eFlurryAppCircleEnable()
 {
-    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[10] func: s3eFlurryAppCircleEnable"));
+    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[11] func: s3eFlurryAppCircleEnable"));
 
     if (!_extLoad())
         return;
 
+#ifdef __mips
+    // For MIPs platform we do not have asm code for stack switching 
+    // implemented. So we make LoaderCallStart call manually to set GlobalLock
+    s3eDeviceLoaderCallStart(S3E_TRUE, NULL);
+#endif
+
     g_Ext.m_s3eFlurryAppCircleEnable();
+
+#ifdef __mips
+    s3eDeviceLoaderCallDone(S3E_TRUE, NULL);
+#endif
+
+    return;
 }
 
 void s3eFlurrySetDefaultText(const char* text)
 {
-    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[11] func: s3eFlurrySetDefaultText"));
+    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[12] func: s3eFlurrySetDefaultText"));
 
     if (!_extLoad())
         return;
 
+#ifdef __mips
+    // For MIPs platform we do not have asm code for stack switching 
+    // implemented. So we make LoaderCallStart call manually to set GlobalLock
+    s3eDeviceLoaderCallStart(S3E_TRUE, NULL);
+#endif
+
     g_Ext.m_s3eFlurrySetDefaultText(text);
+
+#ifdef __mips
+    s3eDeviceLoaderCallDone(S3E_TRUE, NULL);
+#endif
+
+    return;
 }
 
 void s3eFlurryShowAdBanner(const s3eBool show)
 {
-    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[12] func: s3eFlurryShowAdBanner"));
+    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[13] func: s3eFlurryShowAdBanner"));
 
     if (!_extLoad())
         return;
 
+#ifdef __mips
+    // For MIPs platform we do not have asm code for stack switching 
+    // implemented. So we make LoaderCallStart call manually to set GlobalLock
+    s3eDeviceLoaderCallStart(S3E_TRUE, NULL);
+#endif
+
     g_Ext.m_s3eFlurryShowAdBanner(show);
+
+#ifdef __mips
+    s3eDeviceLoaderCallDone(S3E_TRUE, NULL);
+#endif
+
+    return;
 }
 
 void s3eFlurryShowOfferWall()
 {
-    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[13] func: s3eFlurryShowOfferWall"));
+    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry[14] func: s3eFlurryShowOfferWall"));
 
     if (!_extLoad())
         return;
 
+#ifdef __mips
+    // For MIPs platform we do not have asm code for stack switching 
+    // implemented. So we make LoaderCallStart call manually to set GlobalLock
+    s3eDeviceLoaderCallStart(S3E_TRUE, NULL);
+#endif
+
     g_Ext.m_s3eFlurryShowOfferWall();
+
+#ifdef __mips
+    s3eDeviceLoaderCallDone(S3E_TRUE, NULL);
+#endif
+
+    return;
 }

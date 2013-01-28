@@ -36,6 +36,12 @@ static void s3eFlurryLogEvent_wrap(const char* eventName, const s3eBool timed)
     s3eEdkThreadRunOnOS((s3eEdkThreadFunc)s3eFlurryLogEvent, 2, eventName, timed);
 }
 
+static void s3eFlurryLogEventWithParameters_wrap(const char* eventName, const char** eventParams, const uint32 numParams, const s3eBool timed)
+{
+    IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry func on main thread: s3eFlurryLogEventWithParameters"));
+    s3eEdkThreadRunOnOS((s3eEdkThreadFunc)s3eFlurryLogEventWithParameters, 4, eventName, eventParams, numParams, timed);
+}
+
 static void s3eFlurryEndTimedEvent_wrap(const char* eventName)
 {
     IwTrace(FLURRY_VERBOSE, ("calling s3eFlurry func on main thread: s3eFlurryEndTimedEvent"));
@@ -110,6 +116,7 @@ static void s3eFlurryShowOfferWall_wrap()
 
 #define s3eFlurryStart s3eFlurryStart_wrap
 #define s3eFlurryLogEvent s3eFlurryLogEvent_wrap
+#define s3eFlurryLogEventWithParameters s3eFlurryLogEventWithParameters_wrap
 #define s3eFlurryEndTimedEvent s3eFlurryEndTimedEvent_wrap
 #define s3eFlurryLogError s3eFlurryLogError_wrap
 #define s3eFlurrySetUserID s3eFlurrySetUserID_wrap
@@ -128,26 +135,27 @@ static void s3eFlurryShowOfferWall_wrap()
 void s3eFlurryRegisterExt()
 {
     /* fill in the function pointer struct for this extension */
-    void* funcPtrs[14];
+    void* funcPtrs[15];
     funcPtrs[0] = (void*)s3eFlurryStart;
     funcPtrs[1] = (void*)s3eFlurryLogEvent;
-    funcPtrs[2] = (void*)s3eFlurryEndTimedEvent;
-    funcPtrs[3] = (void*)s3eFlurryLogError;
-    funcPtrs[4] = (void*)s3eFlurrySetUserID;
-    funcPtrs[5] = (void*)s3eFlurrySetUserAge;
-    funcPtrs[6] = (void*)s3eFlurrySetUserGender;
-    funcPtrs[7] = (void*)s3eFlurrySetLocation;
-    funcPtrs[8] = (void*)s3eFlurrySetSessionReportOnClose;
-    funcPtrs[9] = (void*)s3eFlurrySetSessionReportOnPause;
-    funcPtrs[10] = (void*)s3eFlurryAppCircleEnable;
-    funcPtrs[11] = (void*)s3eFlurrySetDefaultText;
-    funcPtrs[12] = (void*)s3eFlurryShowAdBanner;
-    funcPtrs[13] = (void*)s3eFlurryShowOfferWall;
+    funcPtrs[2] = (void*)s3eFlurryLogEventWithParameters;
+    funcPtrs[3] = (void*)s3eFlurryEndTimedEvent;
+    funcPtrs[4] = (void*)s3eFlurryLogError;
+    funcPtrs[5] = (void*)s3eFlurrySetUserID;
+    funcPtrs[6] = (void*)s3eFlurrySetUserAge;
+    funcPtrs[7] = (void*)s3eFlurrySetUserGender;
+    funcPtrs[8] = (void*)s3eFlurrySetLocation;
+    funcPtrs[9] = (void*)s3eFlurrySetSessionReportOnClose;
+    funcPtrs[10] = (void*)s3eFlurrySetSessionReportOnPause;
+    funcPtrs[11] = (void*)s3eFlurryAppCircleEnable;
+    funcPtrs[12] = (void*)s3eFlurrySetDefaultText;
+    funcPtrs[13] = (void*)s3eFlurryShowAdBanner;
+    funcPtrs[14] = (void*)s3eFlurryShowOfferWall;
 
     /*
      * Flags that specify the extension's use of locking and stackswitching
      */
-    int flags[14] = { 0 };
+    int flags[15] = { 0 };
 
     /*
      * Register the extension

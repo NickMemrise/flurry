@@ -1,10 +1,10 @@
 /*
- * Copyright (C) 2001-2012 Ideaworks3D Ltd.
- * All Rights Reserved.
+ * (C) 2001-2012 Marmalade. All Rights Reserved.
  *
  * This document is protected by copyright, and contains information
- * proprietary to Ideaworks Labs.
- * This file consists of source code released by Ideaworks Labs under
+ * proprietary to Marmalade.
+ *
+ * This file consists of source code released by Marmalade under
  * the terms of the accompanying End User License Agreement (EULA).
  * Please do not use this program/source code before you have read the
  * EULA and have agreed to be bound by its terms.
@@ -92,6 +92,26 @@ void s3eFlurryStart(const char* ID);
  * s3eFlurry.h
  */
 void s3eFlurryLogEvent(const char* eventName, const s3eBool timed S3E_DEFAULT(S3E_FALSE));
+
+/**
+ * Use this to count the number of times certain events happen during a session of your
+ * application. For example, this can be useful for measuring how often users perform
+ * various actions (maximum length 255 characters)
+ * Limited to counting occurrences for 300 different event ids
+ * (maximum length 255 characters).
+ * This variant allows you to add parameters to the event, so you can specify the same
+ * event but with different properties. For example, you could use the event 'CHOOSE' with
+ * either the parameter 'RED PILL' or 'BLUE PILL', which might be easier to analyse than the
+ * separate events 'CHOOSE RED PILL' and 'CHOOSE BLUE PILL'
+ *
+ * If s3eBool is true a timed event will be created. To end this event use
+ * s3eFlurryEndTimedEvent otherwise this will be closed automatically when the app exits
+ * @see s3eFlurryEndTimedEvent
+ *
+ * @par Required Header Files
+ * s3eFlurry.h
+ */
+void s3eFlurryLogEventWithParameters(const char* eventName, const char** eventParams, const uint32 numParams, const s3eBool timed S3E_DEFAULT(S3E_FALSE));
 
 /**
  * Use this to end timed event before app exits, otherwise timed events automatically
