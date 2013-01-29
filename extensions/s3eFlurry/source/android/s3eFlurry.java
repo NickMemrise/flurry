@@ -28,6 +28,8 @@ import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.FrameLayout;
 
+import java.util.HashMap;
+
 class s3eFlurry
 {
     AppCircle appCircle;
@@ -49,11 +51,28 @@ class s3eFlurry
     }
     public void s3eFlurryLogEvent(String eventName, boolean timed)
     {
-        if(!timed)
+        if(timed)
             FlurryAgent.logEvent(eventName);
         else
             FlurryAgent.logEvent(eventName, timed);
     }
+	public void s3eFlurryLogEventWithParameters(String eventName, String[] eventParams, boolean timed)
+	{
+		HashMap<String, String> params = new HashMap<String, String>();
+		
+		int numParams = eventParams.length / 2;
+		
+		for(int i=0; i<numParams; i++)
+		{
+			int index = i * 2;
+			params.put(eventParams[index], eventParams[index+1]);
+		}
+		
+        if(timed)
+            FlurryAgent.logEvent(eventName, params);
+        else
+            FlurryAgent.logEvent(eventName, params, timed);
+	}
     public void s3eFlurryEndTimedEvent(String eventName)
     {
         FlurryAgent.endTimedEvent(eventName);

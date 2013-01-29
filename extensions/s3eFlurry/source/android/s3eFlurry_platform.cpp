@@ -16,6 +16,7 @@
 static jobject g_Obj;
 static jmethodID g_s3eFlurryStart;
 static jmethodID g_s3eFlurryLogEvent;
+static jmethodID g_s3eFlurryLogEventWithParameters;
 static jmethodID g_s3eFlurryEndTimedEvent;
 static jmethodID g_s3eFlurryLogError;
 static jmethodID g_s3eFlurrySetUserID;
@@ -58,6 +59,10 @@ s3eResult s3eFlurryInit_platform()
 
     g_s3eFlurryLogEvent = env->GetMethodID(cls, "s3eFlurryLogEvent", "(Ljava/lang/String;Z)V");
     if (!g_s3eFlurryLogEvent)
+        goto fail;
+
+    g_s3eFlurryLogEventWithParameters = env->GetMethodID(cls, "s3eFlurryLogEventWithParameters", "(Ljava/lang/String;Ljava/lang/Object;[Ljava/lang/String;Z)V");
+    if (!g_s3eFlurryLogEventWithParameters)
         goto fail;
 
     g_s3eFlurryEndTimedEvent = env->GetMethodID(cls, "s3eFlurryEndTimedEvent", "(Ljava/lang/String;)V");
@@ -146,7 +151,19 @@ void s3eFlurryLogEvent_platform(const char* eventName, const s3eBool timed)
 {
     JNIEnv* env = s3eEdkJNIGetEnv();
     jstring eventName_jstr = env->NewStringUTF(eventName);
-    env->CallVoidMethod(g_Obj, g_s3eFlurryLogEvent, eventName_jstr);
+    env->CallVoidMethod(g_Obj, g_s3eFlurryLogEvent, eventName_jstr, timed);
+}
+
+void s3eFlurryLogEventWithParameters_platform(const char* eventName, const char** eventParams, const uint32 numParams, const s3eBool timed)
+{
+    JNIEnv* env = s3eEdkJNIGetEnv();
+    jstring eventName_jstr = env->NewStringUTF(eventName);
+    jobjectArray j_params = env->NewObjectArray(numParams,env->FindClass("java/lang/String"),NULL);
+    for(uint32 i = 0; i < numParams; i++)
+    {
+        env->SetObjectArrayElement(j_params, i, env->NewStringUTF(eventParams[i]));
+    }
+    env->CallVoidMethod(g_Obj, g_s3eFlurryLogEventWithParameters, eventName_jstr, j_params, timed);
 }
 
 void s3eFlurryEndTimedEvent_platform(const char* eventName)
