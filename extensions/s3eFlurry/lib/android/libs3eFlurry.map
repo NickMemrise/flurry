@@ -317,10 +317,10 @@ LOAD c:/Android/ndk/platforms/android-9/arch-arm/usr/lib/crtend_so.o
                 0x000014c0                PROVIDE (_etext, .)
                 0x000014c0                PROVIDE (etext, .)
 
-.rodata         0x000014c0      0x244
+.rodata         0x000014c0      0x248
  *(.rodata .rodata.* .gnu.linkonce.r.*)
  .rodata.str1.4
-                0x000014c0      0x244 release\s3eFlurry_platform.os
+                0x000014c0      0x248 release\s3eFlurry_platform.os
  .rodata.str1.4
                 0x00000000        0xc release\s3eFlurry_register.os
 
@@ -329,11 +329,11 @@ LOAD c:/Android/ndk/platforms/android-9/arch-arm/usr/lib/crtend_so.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x00001704                __exidx_start = .
+                0x00001708                __exidx_start = .
 
 .ARM.exidx
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x00001704                __exidx_end = .
+                0x00001708                __exidx_end = .
 
 .eh_frame_hdr
  *(.eh_frame_hdr)
@@ -343,7 +343,7 @@ LOAD c:/Android/ndk/platforms/android-9/arch-arm/usr/lib/crtend_so.o
 
 .gcc_except_table
  *(.gcc_except_table .gcc_except_table.*)
-                0x00001704                . = (ALIGN (0x1000) - ((0x1000 - .) & 0xfff))
+                0x00001708                . = (ALIGN (0x1000) - ((0x1000 - .) & 0xfff))
                 0x00002eb8                . = (0x1000 DATA_SEGMENT_ALIGN 0x1000)
 
 .eh_frame

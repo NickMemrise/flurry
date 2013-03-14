@@ -51,10 +51,14 @@ class s3eFlurry
     }
     public void s3eFlurryLogEvent(String eventName, boolean timed)
     {
-        if(timed)
+        if(!timed)
+		{
             FlurryAgent.logEvent(eventName);
+		}
         else
+		{
             FlurryAgent.logEvent(eventName, timed);
+		}
     }
 	public void s3eFlurryLogEventWithParameters(String eventName, String[] eventParams, boolean timed)
 	{
@@ -68,10 +72,14 @@ class s3eFlurry
 			params.put(eventParams[index], eventParams[index+1]);
 		}
 		
-        if(timed)
+        if(!timed)
+		{
             FlurryAgent.logEvent(eventName, params);
+		}
         else
+		{
             FlurryAgent.logEvent(eventName, params, timed);
+		}
 	}
     public void s3eFlurryEndTimedEvent(String eventName)
     {

@@ -61,7 +61,7 @@ s3eResult s3eFlurryInit_platform()
     if (!g_s3eFlurryLogEvent)
         goto fail;
 
-    g_s3eFlurryLogEventWithParameters = env->GetMethodID(cls, "s3eFlurryLogEventWithParameters", "(Ljava/lang/String;Ljava/lang/Object;[Ljava/lang/String;Z)V");
+    g_s3eFlurryLogEventWithParameters = env->GetMethodID(cls, "s3eFlurryLogEventWithParameters", "(Ljava/lang/String;(Ljava/lang/Object;[Ljava/lang/String;)Z)V");
     if (!g_s3eFlurryLogEventWithParameters)
         goto fail;
 

@@ -535,30 +535,30 @@ LOAD c:/Android/ndk/platforms/android-9/arch-arm/usr/lib/crtend_so.o
                 0x00005508                PROVIDE (_etext, .)
                 0x00005508                PROVIDE (etext, .)
 
-.rodata         0x00005508      0x780
+.rodata         0x00005508      0x784
  *(.rodata .rodata.* .gnu.linkonce.r.*)
- .rodata        0x00005508      0x28c debug\s3eFlurry_platform.os
- .rodata        0x00005794      0x3d8 debug\s3eFlurry_register.os
+ .rodata        0x00005508      0x290 debug\s3eFlurry_platform.os
+ .rodata        0x00005798      0x3d8 debug\s3eFlurry_register.os
  .rodata.str1.4
-                0x00005b6c      0x11c C:\marmalade\6.2.0\s3e\edk\lib\android\libedk.a(IwDebug.o)
+                0x00005b70      0x11c C:\marmalade\6.2.0\s3e\edk\lib\android\libedk.a(IwDebug.o)
                                 0x120 (size before relaxing)
 
 .rodata1
  *(.rodata1)
 
-.ARM.extab      0x00005c88       0x24
+.ARM.extab      0x00005c8c       0x24
  *(.ARM.extab* .gnu.linkonce.armextab.*)
- .ARM.extab     0x00005c88       0x24 c:/Android/ndk/toolchains/arm-linux-androideabi-4.4.3/prebuilt/windows/bin/../lib/gcc/arm-linux-androideabi/4.4.3\libgcc.a(unwind-arm.o)
-                0x00005cac                __exidx_start = .
+ .ARM.extab     0x00005c8c       0x24 c:/Android/ndk/toolchains/arm-linux-androideabi-4.4.3/prebuilt/windows/bin/../lib/gcc/arm-linux-androideabi/4.4.3\libgcc.a(unwind-arm.o)
+                0x00005cb0                __exidx_start = .
 
-.ARM.exidx      0x00005cac       0xf8
+.ARM.exidx      0x00005cb0       0xf8
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
- .ARM.exidx     0x00005cac       0x10 c:/Android/ndk/toolchains/arm-linux-androideabi-4.4.3/prebuilt/windows/bin/../lib/gcc/arm-linux-androideabi/4.4.3\libgcc.a(bpabi.o)
- .ARM.exidx     0x00005cbc       0xa0 c:/Android/ndk/toolchains/arm-linux-androideabi-4.4.3/prebuilt/windows/bin/../lib/gcc/arm-linux-androideabi/4.4.3\libgcc.a(unwind-arm.o)
- .ARM.exidx     0x00005d5c       0x38 c:/Android/ndk/toolchains/arm-linux-androideabi-4.4.3/prebuilt/windows/bin/../lib/gcc/arm-linux-androideabi/4.4.3\libgcc.a(pr-support.o)
- .ARM.exidx     0x00005d94        0x8 c:/Android/ndk/toolchains/arm-linux-androideabi-4.4.3/prebuilt/windows/bin/../lib/gcc/arm-linux-androideabi/4.4.3\libgcc.a(_divdi3.o)
- .ARM.exidx     0x00005d9c        0x8 c:/Android/ndk/toolchains/arm-linux-androideabi-4.4.3/prebuilt/windows/bin/../lib/gcc/arm-linux-androideabi/4.4.3\libgcc.a(_udivdi3.o)
-                0x00005da4                __exidx_end = .
+ .ARM.exidx     0x00005cb0       0x10 c:/Android/ndk/toolchains/arm-linux-androideabi-4.4.3/prebuilt/windows/bin/../lib/gcc/arm-linux-androideabi/4.4.3\libgcc.a(bpabi.o)
+ .ARM.exidx     0x00005cc0       0xa0 c:/Android/ndk/toolchains/arm-linux-androideabi-4.4.3/prebuilt/windows/bin/../lib/gcc/arm-linux-androideabi/4.4.3\libgcc.a(unwind-arm.o)
+ .ARM.exidx     0x00005d60       0x38 c:/Android/ndk/toolchains/arm-linux-androideabi-4.4.3/prebuilt/windows/bin/../lib/gcc/arm-linux-androideabi/4.4.3\libgcc.a(pr-support.o)
+ .ARM.exidx     0x00005d98        0x8 c:/Android/ndk/toolchains/arm-linux-androideabi-4.4.3/prebuilt/windows/bin/../lib/gcc/arm-linux-androideabi/4.4.3\libgcc.a(_divdi3.o)
+ .ARM.exidx     0x00005da0        0x8 c:/Android/ndk/toolchains/arm-linux-androideabi-4.4.3/prebuilt/windows/bin/../lib/gcc/arm-linux-androideabi/4.4.3\libgcc.a(_udivdi3.o)
+                0x00005da8                __exidx_end = .
 
 .eh_frame_hdr
  *(.eh_frame_hdr)
@@ -568,7 +568,7 @@ LOAD c:/Android/ndk/platforms/android-9/arch-arm/usr/lib/crtend_so.o
 
 .gcc_except_table
  *(.gcc_except_table .gcc_except_table.*)
-                0x00005da4                . = (ALIGN (0x1000) - ((0x1000 - .) & 0xfff))
+                0x00005da8                . = (ALIGN (0x1000) - ((0x1000 - .) & 0xfff))
                 0x00006e5c                . = (0x1000 DATA_SEGMENT_ALIGN 0x1000)
 
 .eh_frame
